@@ -1,0 +1,32 @@
+<div ng-controller = 'ordersController'>
+	<fieldset>
+		<legend>Add a new order</legend>
+		Customer
+		<select ng-model = 'newOrder.customer'>
+			<option value="{{customer.name}}" ng-repeat = 'customer in customers'>{{customer.name}}</option>
+		</select>
+		<br>
+		Order
+		<input type="number" min = 0 max = 10 ng-model = 'newOrder.quantity'>
+		<select ng-model = 'newOrder.product'>
+			<option value="{{product.name}}" ng-repeat = 'product in products'>{{product.name}}</option>
+		</select>
+		<br>
+		<input type="submit" class = 'btn btn-success' ng-click = 'makeOrder()' value = 'Add'>
+	</fieldset>
+	<input type="text" ng-model = "filter_name" placeholder = 'filter'>
+		<table class = 'table'>
+			<tr>
+				<th>Customer Name</th>
+				<th>Product</th>
+				<th>Quantity</th>
+				<th>Date</th>
+			</tr>
+			<tr ng-repeat = "order in orders | filter:filter_name | orderBy:'-created_at'">
+				<td ng-bind = 'order.customer'></td>
+				<td ng-bind = 'order.product'></td>
+				<td ng-bind = 'order.quantity'></td>
+				<td ng-bind = 'order.created_at'></td>
+			</tr>
+		</table>
+</div>

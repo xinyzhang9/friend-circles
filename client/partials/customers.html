@@ -1,0 +1,20 @@
+<div ng-controller='customersController'>
+	<fieldset>
+		<legend>Add a new customer</legend>
+		<input type="text" ng-model = 'newCustomer.name' placeholder = 'customer name'>
+		<input type="submit" class = 'btn btn-success' ng-click = 'addCustomer()' value = 'Add'>
+	</fieldset>
+		<input type="text" ng-model = "filter_name" placeholder = 'search name'>
+		<table class = 'table'>
+			<tr>
+				<th>Customer Name</th>
+				<th>Created Date</th>
+				<th>Actions</th>
+			</tr>
+			<tr ng-repeat = "customer in customers | filter:filter_name | orderBy:'-created_at'">
+				<td ng-bind = 'customer.name'></td>
+				<td ng-bind = 'customer.created_at'></td>
+				<td><button ng-click = 'removeCustomer(customer._id)' class = 'btn btn-danger'>Remove</button></td>
+			</tr>
+		</table>
+</div>

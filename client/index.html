@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = 'myApp'>
+<head>
+	<meta charset="UTF-8">
+	<title>angular project5</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<style>
+
+	body{
+		margin: 10px;
+	}
+	input{
+		margin-bottom: 5px;
+		margin-top: 5px;
+	}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"/></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+	<script>
+		var myApp = angular.module('myApp',['ngRoute']);
+
+		myApp.config(function($routeProvider){
+			$routeProvider
+			.when('/',{
+				templateUrl : './partials/customers.html'
+			})
+			.when('/orders',{
+				templateUrl : './partials/orders.html'
+			})
+			.otherwise({
+				redirectTo: '/'
+			});
+		});
+
+		//create a customer factory
+		myApp.factory('customerFactory',function($http){
+			factory = {};
+			var customers = [];
+			factory.index = function(callback){
+				console.log('customerFactory is loading data');
+				$http.get('/customers').success(function(output){
+					console.log('customerFactory.index success');
+					console.log(output);
+					customers = output;
+					callback(customers);
+				})
+			}
+			factory.create = function(info,callback){
+				console.log('customerFactory.create');
+				$http.post('/addCustomer/'+info.name).success(function(output){
+					callback(output);
+				})
+			}
+			factory.remove = function(id,callback){
+				$http.post('/removeCustomer/'+id).success(function(output){
+					console.log('customerFactory.removeCustomer success');
+					callback(output);
+				})
+			}
+			return factory;
+		});
+
+		//create a order factory
+		myApp.factory('orderFactory',function($http){
+			factory = {};
+			var products = [
+			{name:'Nike Shoes',quantity:50},
+			{name:'Black Belts',quantity:50},
+			{name:'Ice Creams',quantity:50},
+			{name:'Candies',quantity:50},
+			];
+			var orders = [];
+			factory.getProducts = function(){
+				return products;
+			}
+			factory.index = function(callback){
+				console.log('orderFactory is loading data.');
+				$http.get('/orders').success(function(output){
+					console.log('orderFactory.index success');
+					console.log(output);
+					orders = output;
+					callback(orders);
+				})
+			},
+			factory.create = function(info,callback){
+				console.log('order.create');
+				$http.post('/makeOrder',info).success(function(output){
+					callback(output);
+				})
+			}
+			return factory;
+		})
+
+		//customers controller
+		myApp.controller('customersController',function($scope,customerFactory){
+			customerFactory.index(function(data){
+				console.log(data);
+				$scope.customers = data;
+			});
+			$scope.addCustomer = function(){
+				console.log('customersController.addCustomer');
+				customerFactory.create($scope.newCustomer,function(){
+					$scope.newCustomer = {};
+
+					customerFactory.index(function(data){
+						console.log(data);
+						$scope.customers = data;
+					});
+				})
+			};
+			$scope.removeCustomer = function(id){
+				console.log('going to remove customer with id: '+id);
+				customerFactory.remove(id,function(){
+					customerFactory.index(function(data){
+						console.log(data);
+						$scope.customers = data;
+					});
+				})
+			};
+
+		});
+
+		//orders controller
+		myApp.controller('ordersController',function($scope,orderFactory,customerFactory){
+			//load orders
+			orderFactory.index(function(data){
+				console.log(data);
+				$scope.orders = data;
+			});
+			//load customers
+			customerFactory.index(function(data){
+				console.log(data);
+				$scope.customers = data;
+			});
+			//load products
+			$scope.products = orderFactory.getProducts();
+			$scope.makeOrder = function(){
+				console.log('ordersController.makeOrder');
+				orderFactory.create($scope.newOrder,function(){
+					$scope.newOrder = {};
+
+					orderFactory.index(function(data){
+						console.log(data);
+						$scope.orders = data;
+					});
+				})
+			}
+		})
+
+
+
+	</script>
+</head>
+<body>
+	<div>
+		<a href="#/">customers</a>  |  <a href="#/orders">orders</a>
+		<div ng-view = ''></div>
+	</div>
+
+</body>
+</html>
