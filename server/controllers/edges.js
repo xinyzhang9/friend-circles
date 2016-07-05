@@ -23,8 +23,8 @@ module.exports = (function(){
 		add:function(req,res){
 			var edge = new Edge(
 				{	
-					source:req.body.source,
-					target:req.body.target,
+					source:req.body.id1,
+					target:req.body.id2,
 					created_at:Date()
 				});
 			edge.save(function(err,output){

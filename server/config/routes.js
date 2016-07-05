@@ -21,10 +21,16 @@ module.exports = function(app){
 	app.get('/edges/:id',function(req,res){
 		edges.getEdgesById(req,res);
 	});
-	app.post('/addEdge',function(req,res){
+	app.post('/edges',function(req,res){
 		edges.add(req,res);
 	});
 	app.post('/removeEdgeById/:id',function(req,res){
 		edges.removeEdgeById(req,res);
+	});
+	app.post('/connect',function(req,res){
+		nodes.connect(req,res);
+	});
+	app.get('/getNodeById/:id',function(req,res){
+		nodes.getNodeById(req,res);
 	})
 }

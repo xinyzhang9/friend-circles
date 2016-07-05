@@ -1,0 +1,20 @@
+<div ng-controller='mainController'>
+	<fieldset>
+		<legend>Add a new node</legend>
+		<input type="text" ng-model = 'newNode.name' placeholder = 'user name'>
+		<input type="submit" class = 'btn btn-success' ng-click = 'addNode()' value = 'Add'>
+	</fieldset>
+		<input type="text" ng-model = "filter_name" placeholder = 'search name'>
+		<table class = 'table'>
+			<tr>
+				<th>User Name</th>
+				<th>Created Date</th>
+				<th>Actions</th>
+			</tr>
+			<tr ng-repeat = "node in nodes | filter:filter_name | orderBy:'-created_at'">
+				<td><a href="#/node/{{node._id}}">{{node.name}}</a></td>
+				<td ng-bind = 'node.created_at'></td>
+				<td><button ng-click = 'removeNode(node._id)' class = 'btn btn-danger'>Remove</button></td>
+			</tr>
+		</table>
+</div>

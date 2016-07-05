@@ -40,6 +40,29 @@ module.exports = (function(){
 					res.json({"status":'successful'});
 				}
 			})
+		},
+		connect:function(req,res){
+			Node.findOne({_id:req.body.id1},function(err,node){
+				var dup = false;
+				for(var i = 0; i < node.friends.length; i++){
+					if(node.friends[i] == req.body.id2){
+						dup = true;
+						break;
+					}
+				}
+				if(!dup){
+					node.friends.push(req.body.id2);
+				}
+				node.save(function(err,output){
+					if(err){
+						console.log(err);
+					}else{
+						console.log('node connect successfully');
+						res.json(output);
+					}
+				})
+
+			})
 		}
 	}
 })()

@@ -30,130 +30,165 @@
 		myApp.config(function($routeProvider){
 			$routeProvider
 			.when('/',{
-				templateUrl : './partials/customers.html'
+				templateUrl : './partials/index.html'
 			})
-			.when('/orders',{
-				templateUrl : './partials/orders.html'
+			.when('/node/:id',{
+				templateUrl : './partials/node.html'
 			})
 			.otherwise({
 				redirectTo: '/'
 			});
 		});
 
-		//create a customer factory
-		myApp.factory('customerFactory',function($http){
+		//create a node factory
+		myApp.factory('nodeFactory',function($http){
 			factory = {};
-			var customers = [];
+			var nodes = [];
 			factory.index = function(callback){
-				console.log('customerFactory is loading data');
-				$http.get('/customers').success(function(output){
-					console.log('customerFactory.index success');
+				console.log('nodeFactory is loading data');
+				$http.get('/nodes').success(function(output){
 					console.log(output);
-					customers = output;
-					callback(customers);
-				})
-			}
-			factory.create = function(info,callback){
-				console.log('customerFactory.create');
-				$http.post('/addCustomer/'+info.name).success(function(output){
 					callback(output);
 				})
-			}
+			};
+			factory.create = function(info,callback){
+				console.log('nodeFactory.create');
+				$http.post('/addNode/'+info.name).success(function(output){
+					callback(output);
+				})
+			};
 			factory.remove = function(id,callback){
-				$http.post('/removeCustomer/'+id).success(function(output){
-					console.log('customerFactory.removeCustomer success');
+				$http.post('/removeNode/'+id).success(function(output){
+					console.log('nodeFactory.removeNode success');
 					callback(output);
 				})
-			}
+			};
+			factory.connect = function(id1,id2,callback){
+				console.log('nodeFactory.connect');
+				var info = {id1 : id1, id2 : id2};
+				$http.post('/connect/',info).success(function(output){
+					callback(output);
+				})
+			};
+			factory.getNodeById = function(id,callback){
+				$http.get('/getNodeById/'+id).success(function(output){
+					callback(output);
+				})
+			};
 			return factory;
 		});
 
-		//create a order factory
-		myApp.factory('orderFactory',function($http){
+		//create an edge factory
+		myApp.factory('edgeFactory',function($http){
 			factory = {};
-			var products = [
-			{name:'Nike Shoes',quantity:50},
-			{name:'Black Belts',quantity:50},
-			{name:'Ice Creams',quantity:50},
-			{name:'Candies',quantity:50},
+			var edges = [
+			
 			];
-			var orders = [];
-			factory.getProducts = function(){
-				return products;
-			}
+
 			factory.index = function(callback){
-				console.log('orderFactory is loading data.');
-				$http.get('/orders').success(function(output){
-					console.log('orderFactory.index success');
-					console.log(output);
-					orders = output;
-					callback(orders);
-				})
-			},
-			factory.create = function(info,callback){
-				console.log('order.create');
-				$http.post('/makeOrder',info).success(function(output){
+				console.log('edgeFactory is loading data.');
+				$http.get('/edges').success(function(output){
+					console.log('edgeFactory.index success');
 					callback(output);
 				})
-			}
+			};
+			factory.create = function(id1,id2,callback){
+				console.log('edges.create');
+				var info = {id1:id1,id2:id2};
+				$http.post('/edges',info).success(function(output){
+					callback(output);
+				})
+			};
+			
 			return factory;
 		})
 
-		//customers controller
-		myApp.controller('customersController',function($scope,customerFactory){
-			customerFactory.index(function(data){
-				console.log(data);
-				$scope.customers = data;
-			});
-			$scope.addCustomer = function(){
-				console.log('customersController.addCustomer');
-				customerFactory.create($scope.newCustomer,function(){
-					$scope.newCustomer = {};
 
-					customerFactory.index(function(data){
+		//main controller
+		myApp.controller('mainController',function($scope,nodeFactory,edgeFactory){
+			nodeFactory.index(function(data){
+				console.log(data);
+				$scope.nodes = data;
+			});
+
+			edgeFactory.index(function(data){
+				console.log(data);
+				$scope.edges = data;
+			});
+
+			$scope.addNode = function(){
+				console.log('mainController.addNode');
+				nodeFactory.create($scope.newNode,function(){
+					$scope.newNode = {};
+
+					nodeFactory.index(function(data){
 						console.log(data);
-						$scope.customers = data;
+						$scope.nodes = data;
 					});
 				})
 			};
-			$scope.removeCustomer = function(id){
-				console.log('going to remove customer with id: '+id);
-				customerFactory.remove(id,function(){
-					customerFactory.index(function(data){
+			$scope.removeNode = function(id){
+				console.log('going to remove node with id: '+id);
+				nodeFactory.remove(id,function(){
+					nodeFactory.remove(id,function(data){
 						console.log(data);
-						$scope.customers = data;
+						$scope.nodes = data;
+					});
+				})
+			};
+
+
+		});
+
+		//friends controller
+		myApp.controller('friendController',function($scope,$routeParams,nodeFactory,edgeFactory){
+			var id = $routeParams.id;
+
+			nodeFactory.getNodeById(id,function(data){
+					console.log(data);
+					$scope.node = data;
+				});
+
+			var getNodes = function(){
+				nodeFactory.index(function(data){
+					console.log(data);
+					$scope.nodes = data;
+				});
+			}
+			
+			var getEdges = function(){
+				edgeFactory.index(function(data){
+					console.log(data);
+					$scope.edges = data;
+				});
+			}
+
+			getNodes();
+			getEdges();
+			
+
+			$scope.connect = function(id2){
+				nodeFactory.connect(id,id2,function(data){
+					nodeFactory.connect(id2,id,function(data){
+						edgeFactory.create(id,id2,function(data){
+							getNodes();
+							getEdges();
+						})
+						
+					})
+				})
+			};
+			$scope.removeNode = function(id){
+				console.log('going to remove node with id: '+id);
+				nodeFactory.remove(id,function(){
+					nodeFactory.remove(id,function(data){
+						console.log(data);
+						$scope.nodes = data;
 					});
 				})
 			};
 
 		});
-
-		//orders controller
-		myApp.controller('ordersController',function($scope,orderFactory,customerFactory){
-			//load orders
-			orderFactory.index(function(data){
-				console.log(data);
-				$scope.orders = data;
-			});
-			//load customers
-			customerFactory.index(function(data){
-				console.log(data);
-				$scope.customers = data;
-			});
-			//load products
-			$scope.products = orderFactory.getProducts();
-			$scope.makeOrder = function(){
-				console.log('ordersController.makeOrder');
-				orderFactory.create($scope.newOrder,function(){
-					$scope.newOrder = {};
-
-					orderFactory.index(function(data){
-						console.log(data);
-						$scope.orders = data;
-					});
-				})
-			}
-		})
 
 
 
@@ -161,7 +196,7 @@
 </head>
 <body>
 	<div>
-		<a href="#/">customers</a>  |  <a href="#/orders">orders</a>
+		<a href="#/">index</a>
 		<div ng-view = ''></div>
 	</div>
 

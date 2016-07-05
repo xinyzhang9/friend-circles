@@ -1,0 +1,13 @@
+<div ng-controller='friendController'>
+	{{node}}
+	<table class = 'table'>
+			<tr>
+				<th>User Name</th>
+				<th>Actions</th>
+			</tr>
+			<tr ng-repeat = "v in nodes | filter:filter_name | orderBy:'-created_at'">
+				<td>{{v.name}}</td>
+				<td><button ng-click = 'connect(v._id)' class = 'btn btn-primary'>Connect</button></td>
+			</tr>
+		</table>
+</div>
