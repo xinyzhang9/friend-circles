@@ -12,6 +12,9 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type='text/javascript' src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"> </script>
 	<style>
 
 	body{
@@ -211,6 +214,7 @@
 							getNode(id);
 							getNodes();
 							getEdges();
+							draw();
 							
 						})
 						
@@ -234,11 +238,78 @@
 							getNode(id);
 							getNodes();
 							getEdges();
+							draw();
 							
 						})
 						
 					})
 				})
+			};
+
+			var draw = function(){
+				//Width and height
+			var w = 900;
+			var h = 600;
+
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width",w)
+						.attr("height",h);
+
+			var tip = d3.tip()
+			    .attr('class', 'd3-tip')
+			    .offset([-10, 0])
+			    .html(function (d) {
+			    return  d.name + "";
+			})
+			svg.call(tip);
+
+			// var color_pool = ["red","orange","blue","yellow","green","black","gray","maroon","cyan","olive"];
+			var colors = d3.scale.category10();
+			var dataset = {
+			        nodes: $scope.nodes,
+			        edges: $scope.edges
+			};
+
+			var force = d3.layout.force()
+                     .nodes(dataset.nodes)
+                     .links(dataset.edges)
+                     .size([w, h])
+                     .start()
+                     .linkDistance([50])       
+                     .charge([-100])            
+                     .start();
+
+            var edges = svg.selectAll("line")
+					        .data(dataset.edges)
+					        .enter()
+					        .append("line")
+					        .style("stroke", "#ccc")
+					        .style("stroke-width", 1);
+
+			var nodes = svg.selectAll("circle")
+					        .data(dataset.nodes)
+					        .enter()
+					        .append("circle")
+					        .attr("r", 10)
+					        .style("fill", function(d, i) {
+					                return colors(i);
+					        })
+					        .call(force.drag)
+					        .on('mouseover', tip.show)
+					        .on('mouseout', tip.hide); //Added 
+
+			force.on("tick", function() {
+
+				edges.attr("x1", function(d) { return d.source.x; })
+				     .attr("y1", function(d) { return d.source.y; })
+				     .attr("x2", function(d) { return d.target.x; })
+				     .attr("y2", function(d) { return d.target.y; });
+
+				nodes.attr("cx", function(d) { return d.x; })
+				     .attr("cy", function(d) { return d.y; });
+
+				});
 			}
 
 		});
