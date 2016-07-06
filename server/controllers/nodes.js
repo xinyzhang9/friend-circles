@@ -63,6 +63,22 @@ module.exports = (function(){
 				})
 
 			})
-		}
+		},
+		disconnect:function(req,res){
+			Node.findOne({_id:req.body.id1},function(err,node){
+
+				var c = node.friends.indexOf(req.body.id2);
+				node.friends.splice(c,1);
+				node.save(function(err,output){
+					if(err){
+						console.log(err);
+					}else{
+						console.log('node connect successfully');
+						res.json(output);
+					}
+				})
+
+			})
+		},
 	}
 })()

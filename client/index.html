@@ -75,6 +75,13 @@
 					callback(output);
 				})
 			};
+			factory.disconnect = function(id1,id2,callback){
+				console.log('nodeFactory.disconnect');
+				var info = {id1 : id1, id2 : id2};
+				$http.post('/disconnect/',info).success(function(output){
+					callback(output);
+				})
+			};
 			return factory;
 		});
 
@@ -99,6 +106,14 @@
 					callback(output);
 				})
 			};
+			factory.remove = function(id1,id2,callback){
+				
+				var info = {id1:id1,id2:id2};
+				$http.post('/removeEdges',info).success(function(output){
+					console.log('edges.remove success');
+					callback(output);
+				})
+			};
 			
 			return factory;
 		})
@@ -106,15 +121,22 @@
 
 		//main controller
 		myApp.controller('mainController',function($scope,nodeFactory,edgeFactory){
-			nodeFactory.index(function(data){
-				console.log(data);
-				$scope.nodes = data;
-			});
-
-			edgeFactory.index(function(data){
-				console.log(data);
-				$scope.edges = data;
-			});
+			var getNodes = function(){
+				nodeFactory.index(function(data){
+					console.log(data);
+					$scope.nodes = data;
+				});
+			}
+			
+			var getEdges = function(){
+				edgeFactory.index(function(data){
+					console.log(data);
+					$scope.edges = data;
+				});
+			}
+			
+			getNodes();
+			getEdges();
 
 			$scope.addNode = function(){
 				console.log('mainController.addNode');
@@ -131,8 +153,8 @@
 				console.log('going to remove node with id: '+id);
 				nodeFactory.remove(id,function(){
 					nodeFactory.remove(id,function(data){
-						console.log(data);
-						$scope.nodes = data;
+						getNodes();
+						getEdges();
 					});
 				})
 			};
@@ -144,10 +166,13 @@
 		myApp.controller('friendController',function($scope,$routeParams,nodeFactory,edgeFactory){
 			var id = $routeParams.id;
 
-			nodeFactory.getNodeById(id,function(data){
-					console.log(data);
+			var getNode = function(id){
+				nodeFactory.getNodeById(id,function(data){
+					console.log('getNode',data);
 					$scope.node = data;
 				});
+			}
+			
 
 			var getNodes = function(){
 				nodeFactory.index(function(data){
@@ -163,6 +188,18 @@
 				});
 			}
 
+			$scope.isFriend = function(id2){
+				for(var i = 0; i < $scope.node.friends.length; i++){
+					if(id2 === id){
+						return false;
+					}
+					if($scope.node.friends[i] === id2){
+						return false;
+					}
+				}
+				return true;
+			};
+			getNode(id);
 			getNodes();
 			getEdges();
 			
@@ -171,8 +208,10 @@
 				nodeFactory.connect(id,id2,function(data){
 					nodeFactory.connect(id2,id,function(data){
 						edgeFactory.create(id,id2,function(data){
+							getNode(id);
 							getNodes();
 							getEdges();
+							
 						})
 						
 					})
@@ -182,11 +221,25 @@
 				console.log('going to remove node with id: '+id);
 				nodeFactory.remove(id,function(){
 					nodeFactory.remove(id,function(data){
-						console.log(data);
-						$scope.nodes = data;
+						getNodes();
+						getEdges();
 					});
 				})
 			};
+
+			$scope.disconnect = function(id2){
+				nodeFactory.disconnect(id,id2,function(data){
+					nodeFactory.disconnect(id2,id,function(data){
+						edgeFactory.remove(id,id2,function(data){
+							getNode(id);
+							getNodes();
+							getEdges();
+							
+						})
+						
+					})
+				})
+			}
 
 		});
 

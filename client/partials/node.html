@@ -4,10 +4,12 @@
 			<tr>
 				<th>User Name</th>
 				<th>Actions</th>
+				<th></th>
 			</tr>
-			<tr ng-repeat = "v in nodes | filter:filter_name | orderBy:'-created_at'">
+			<tr ng-show = "node._id !== v._id" ng-repeat = "v in nodes | filter:filter_name | orderBy:'-created_at'">
 				<td>{{v.name}}</td>
-				<td><button ng-click = 'connect(v._id)' class = 'btn btn-primary'>Connect</button></td>
+				<td><button ng-click = 'connect(v._id)' class = 'btn btn-primary' ng-disabled = "!isFriend(v._id)">Connect</button></td>
+				<td><button ng-click = 'disconnect(v._id)' class = 'btn btn-danger' ng-disabled = "isFriend(v._id)">Disonnect</button></td>
 			</tr>
 		</table>
 </div>

@@ -32,5 +32,11 @@ module.exports = function(app){
 	});
 	app.get('/getNodeById/:id',function(req,res){
 		nodes.getNodeById(req,res);
+	});
+	app.post('/disconnect',function(req,res){
+		nodes.disconnect(req,res);
+	});
+	app.post('/removeEdges',function(req,res){
+		edges.remove(req,res);
 	})
 }

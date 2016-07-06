@@ -25,7 +25,7 @@ module.exports = (function(){
 				{	
 					source:req.body.id1,
 					target:req.body.id2,
-					created_at:Date()
+					created_at:Date(),
 				});
 			edge.save(function(err,output){
 				if(err){
@@ -36,15 +36,25 @@ module.exports = (function(){
 				}
 			})
 		},
-		removeEdgeById:function(req,res){
-			Edge.remove({source:req.body.id},function(err,status){
-				if(err){
-					console.log(err);
-				}else{
-					console.log('remove edges successfully');
-					res.json({"status":'successful'});
-				}
-			})
+		remove:function(req,res){
+			// Edge.remove({source:req.body.id1},function(err,status){
+			// 	if(err){
+			// 		console.log(err);
+			// 	}else{
+			// 		console.log('remove edges successfully');
+			// 		res.json({"status":'successful'});
+			// 	}
+			// })
+			Edge.find().or([
+		          { $and: [{source: req.body.id1}, {target: req.body.id2}] },
+		          { $and: [{source: req.body.id2}, {target: req.body.id1}] }
+		      ]).remove(function(err,output){
+		      	if(err){
+		      		console.err(err);
+		      	}else{
+		      		res.json(output);
+		      	};
+		      });
 		},
 	}
 })()
