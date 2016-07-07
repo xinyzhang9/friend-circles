@@ -1,11 +1,15 @@
 <div ng-controller='mainController'>
 	<fieldset>
-		<legend>Add a new node</legend>
-		<input type="text" ng-model = 'newNode.name' placeholder = 'user name'>
-		<input type="submit" class = 'btn btn-success' ng-click = 'addNode()' value = 'Add'>
+		<legend>Admin Page</legend>
+		<div class = "form">
+			<input class = "form-control" type="text" ng-model = 'newNode.name' placeholder = 'input user name'>
+			<input type="submit" class = 'btn btn-warning' ng-click = 'addNode()' value = 'Add User'>
+			<input type="text" class = "form-control" ng-model = "filter_name" placeholder = 'search user name'>
+		</div>
+		
 	</fieldset>
-		<input type="text" ng-model = "filter_name" placeholder = 'search name'>
-		<table class = 'table'>
+		
+		<table class = 'table table-striped'>
 			<tr>
 				<th>User Name</th>
 				<th>Actions</th>

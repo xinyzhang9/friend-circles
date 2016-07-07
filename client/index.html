@@ -2,7 +2,7 @@
 <html lang="en" ng-app = 'myApp'>
 <head>
 	<meta charset="UTF-8">
-	<title>angular project5</title>
+	<title>friends</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -166,8 +166,12 @@
 		});
 
 		//friends controller
-		myApp.controller('friendController',function($scope,$routeParams,nodeFactory,edgeFactory){
+		myApp.controller('friendController',function($scope,$window,$routeParams,nodeFactory,edgeFactory){
 			var id = $routeParams.id;
+
+			$scope.reload = function(){
+				$window.location.reload();
+			}
 
 			var getNode = function(id){
 				nodeFactory.getNodeById(id,function(data){
@@ -181,13 +185,31 @@
 				nodeFactory.index(function(data){
 					console.log(data);
 					$scope.nodes = data;
+
+					$scope.obj = {};
+					var cnt = 0;
+					for(var key in data){
+						if($scope.obj[data[key]._id] === undefined){
+							$scope.obj[data[key]._id] = cnt;
+							cnt++;
+						}
+					}
+					console.log("scope.obj",$scope.obj);
+					getEdges();
 				});
 			}
 			
 			var getEdges = function(){
 				edgeFactory.index(function(data){
-					console.log(data);
+					
 					$scope.edges = data;
+
+					for(var key in $scope.edges){
+						$scope.edges[key].source = $scope.obj[$scope.edges[key].source];
+						$scope.edges[key].target = $scope.obj[$scope.edges[key].target];
+					}
+			        console.log("$scope.edges",$scope.edges);
+			        setTimeout(draw(), 2000);
 				});
 			}
 
@@ -204,7 +226,6 @@
 			};
 			getNode(id);
 			getNodes();
-			getEdges();
 			
 
 			$scope.connect = function(id2){
@@ -213,8 +234,8 @@
 						edgeFactory.create(id,id2,function(data){
 							getNode(id);
 							getNodes();
-							getEdges();
-							draw();
+							// getEdges();
+							// draw();
 							
 						})
 						
@@ -226,7 +247,6 @@
 				nodeFactory.remove(id,function(){
 					nodeFactory.remove(id,function(data){
 						getNodes();
-						getEdges();
 					});
 				})
 			};
@@ -237,8 +257,7 @@
 						edgeFactory.remove(id,id2,function(data){
 							getNode(id);
 							getNodes();
-							getEdges();
-							draw();
+
 							
 						})
 						
@@ -246,12 +265,15 @@
 				})
 			};
 
+			
+
 			var draw = function(){
-				//Width and height
-			var w = 900;
+
+			//Width and height
+			var w = 800;
 			var h = 600;
 
-			var svg = d3.select("body")
+			var svg = d3.select("#display")
 						.append("svg")
 						.attr("width",w)
 						.attr("height",h);
@@ -264,34 +286,13 @@
 			})
 			svg.call(tip);
 
-			// var color_pool = ["red","orange","blue","yellow","green","black","gray","maroon","cyan","olive"];
 			var colors = d3.scale.category10();
+
 			var dataset = {
 			        nodes: $scope.nodes,
-			        edges: trans($scope.nodes, $scope.edges)
+			        edges: $scope.edges
 			};
-
 			console.log("dataset",dataset);
-
-			function trans(nodes,edges){
-				var cnt = 0;
-				var obj = {};
-				for(var key in nodes){
-					if(obj[nodes[key]._id] === undefined){
-						obj[nodes[key]._id] = cnt;
-						cnt++;
-					}
-				}
-				console.log('obj',obj)
-				cnt = 0;
-				var res = [];
-				for(var key in edges){
-					res.push({source:obj[edges[key].source],target:obj[edges[key].target]});
-				}
-				console.log("res",res);
-				return res;
-
-			}
 
 			var force = d3.layout.force()
                      .nodes(dataset.nodes)
@@ -333,16 +334,13 @@
 
 				});
 			}
-
 		});
-
 
 
 	</script>
 </head>
 <body>
 	<div>
-		<a href="#/">index</a>
 		<div ng-view = ''></div>
 	</div>
 
