@@ -268,8 +268,30 @@
 			var colors = d3.scale.category10();
 			var dataset = {
 			        nodes: $scope.nodes,
-			        edges: $scope.edges
+			        edges: trans($scope.nodes, $scope.edges)
 			};
+
+			console.log("dataset",dataset);
+
+			function trans(nodes,edges){
+				var cnt = 0;
+				var obj = {};
+				for(var key in nodes){
+					if(obj[nodes[key]._id] === undefined){
+						obj[nodes[key]._id] = cnt;
+						cnt++;
+					}
+				}
+				console.log('obj',obj)
+				cnt = 0;
+				var res = [];
+				for(var key in edges){
+					res.push({source:obj[edges[key].source],target:obj[edges[key].target]});
+				}
+				console.log("res",res);
+				return res;
+
+			}
 
 			var force = d3.layout.force()
                      .nodes(dataset.nodes)
