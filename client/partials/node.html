@@ -37,8 +37,8 @@
 			<tr ng-show = "node._id !== v._id" ng-repeat = "v in nodes | filter:filter_name | orderBy:'-created_at'">
 				<td>{{v.name}}</td>
 				<td><img src="img/zp_{{(v.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
-				<td><button ng-click = 'connect(v._id);reload()' class = 'btn btn-success' ng-disabled = "!isFriend(v._id)">Connect</button></td>
-				<td><button ng-click = 'disconnect(v._id);reload()' class = 'btn btn-danger' ng-disabled = "isFriend(v._id)">Disonnect</button></td>
+				<td><button ng-click = 'connect(v._id)' class = 'btn btn-success' ng-disabled = "!isFriend(v._id)">Connect</button></td>
+				<td><button ng-click = 'disconnect(v._id)' class = 'btn btn-danger' ng-disabled = "isFriend(v._id)">Disconnect</button></td>
 			</tr>
 		</table>
 	  </div>
