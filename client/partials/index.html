@@ -16,7 +16,7 @@
 			</tr>
 			<tr ng-repeat = "node in nodes | filter:filter_name | orderBy:'-created_at'">
 				<td><a href="#/node/{{node._id}}">{{node.name}}</a></td>
-				<td><button ng-click = 'removeNode(node._id)' class = 'btn btn-danger'>Remove</button></td>
+				<td><button ng-click = 'removeNode(node._id)' class = 'btn btn-danger'><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></button></td>
 			</tr>
 		</table>
 </div>
