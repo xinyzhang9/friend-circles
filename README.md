@@ -16,7 +16,6 @@ We are building a graph-like visulization of the real-time friend-circles of our
 - [x] Rank users with connections
 
 ### Time Schedule
-Use securing confined his shutters. Delightful as he it acceptance an solicitude discretion reasonably. Carriage we husbands advanced an perceive greatest. Totally dearest expense on demesne ye he.
 
 | Stage | Start  | End | Goals |
 | ------------- | ------------- | ------------- | ------------- |
