@@ -1,18 +1,18 @@
 # friend-circles
 
 ## Description
-We are building a vivid visulization of the real-time friend-circles of our users. 
+We are building a graph-like visulization of the real-time friend-circles of our users. 
 
 ## Plan
 
 ### Todo List
-- [ ] Design a SQL database to store relative user information.
-- [ ] User Log-in and Registeration.
-- [ ] User can add/remove friends.
-- [ ] Visulization of the friend-circles using "force" graph.
-- [ ] Real-time visulization when user add/remove friends.
-- [ ] See specific user's friend-circles by double-clicking his node.
-- [ ] Represent different users with color codes
+- [x] Design a SQL database to store relative user information.
+- [x] User Log-in and Registeration.
+- [x] User can add/remove friends.
+- [x] Visulization of the friend-circles using "force" graph.
+- [x] Real-time visulization when user add/remove friends.
+- [x] See specific user's friend-circles by double-clicking his node.
+- [x] Represent different users with color codes
 
 ### Time Schedule
 Use securing confined his shutters. Delightful as he it acceptance an solicitude discretion reasonably. Carriage we husbands advanced an perceive greatest. Totally dearest expense on demesne ye he.
@@ -37,12 +37,13 @@ See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 - category: full stack
 - team: Mongoose
 - description: vivid visulization of the real-time friend-circles of our users. 
-- stack: angular, django, d3.js
+- stack: Angular, Express, NodeJS, d3.js, MongoDB
 
 > **Note:** The data we use may be fake. For now we are not recommending user input real data.
 >
 >**category options:** 
->full stack, big data, visulization
+>full stack, big data, visulization, front-end
 >
-> **stack options:** [front-end] AngularJS, ejs, ReactJS, [Backend] NodeJS, Django, Rails
-> 
+## Screenshot
+![alt tag](https://raw.githubusercontent.com/xinyzhang9/friend-circles/master/screenshot.png)
+
