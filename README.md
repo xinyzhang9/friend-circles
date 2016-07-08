@@ -6,13 +6,14 @@ We are building a graph-like visulization of the real-time friend-circles of our
 ## Plan
 
 ### Todo List
-- [x] Design a SQL database to store relative user information.
-- [x] User Log-in and Registeration.
+- [x] Design database to store relative user information.
+- [x] Admin page to manage all users.
 - [x] User can add/remove friends.
 - [x] Visulization of the friend-circles using "force" graph.
-- [x] Real-time visulization when user add/remove friends.
+- [x] Real-time visulization when user or others add/remove friends.
 - [x] See specific user's friend-circles by double-clicking his node.
 - [x] Represent different users with color codes
+- [x] Rank users with connections
 
 ### Time Schedule
 Use securing confined his shutters. Delightful as he it acceptance an solicitude discretion reasonably. Carriage we husbands advanced an perceive greatest. Totally dearest expense on demesne ye he.
@@ -36,6 +37,7 @@ See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 ## Project Information
 - category: full stack
 - team: Mongoose
+- Contributor: Xinyang(xinyzhang9@gmail.com)
 - description: vivid visulization of the real-time friend-circles of our users. 
 - stack: Angular, Express, NodeJS, d3.js, MongoDB
 
