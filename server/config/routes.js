@@ -38,5 +38,11 @@ module.exports = function(app){
 	});
 	app.post('/removeEdges',function(req,res){
 		edges.remove(req,res);
-	})
+	});
+	app.post('/removeEdgesById',function(req,res){
+		edges.removeEdgeById(req,res);
+	});
+	app.post('/editNode',function(req,res){
+		nodes.edit(req,res);
+	});
 }

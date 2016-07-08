@@ -85,6 +85,12 @@
 					callback(output);
 				})
 			};
+			factory.edit = function(id,info,callback){
+				var edit_info = {id:id,name:info.name};
+				$http.post('/editNode',edit_info).success(function(output){
+					callback(output);
+				})
+			};
 			return factory;
 		});
 
@@ -109,6 +115,7 @@
 					callback(output);
 				})
 			};
+
 			factory.remove = function(id1,id2,callback){
 				
 				var info = {id1:id1,id2:id2};
@@ -117,6 +124,13 @@
 					callback(output);
 				})
 			};
+
+			factory.removeById = function(id,callback){
+				$http.post('/removeEdgesById',{id:id}).success(function(output){
+					console.log('edges.remove success');
+					callback(output);
+				})
+			}
 			
 			return factory;
 		})
@@ -152,12 +166,15 @@
 					});
 				})
 			};
+			
 			$scope.removeNode = function(id){
 				console.log('going to remove node with id: '+id);
 				nodeFactory.remove(id,function(){
 					nodeFactory.remove(id,function(data){
-						getNodes();
-						getEdges();
+						edgeFactory.removeById(id,function(data){
+							getNodes();
+							getEdges();
+						})	
 					});
 				})
 			};
@@ -168,10 +185,6 @@
 		//friends controller
 		myApp.controller('friendController',function($scope,$window,$routeParams,nodeFactory,edgeFactory){
 			var id = $routeParams.id;
-
-			$scope.reload = function(){
-				$window.location.reload();
-			}
 
 			var getNode = function(id){
 				nodeFactory.getNodeById(id,function(data){
@@ -245,10 +258,18 @@
 			$scope.removeNode = function(id){
 				console.log('going to remove node with id: '+id);
 				nodeFactory.remove(id,function(){
-					nodeFactory.remove(id,function(data){
-						getNodes();
-					});
-				})
+					getNodes();
+				});
+			};
+
+			$scope.editNode = function(id){
+				console.log('friendController.editNode');
+				nodeFactory.edit(id,$scope.newNode,function(){
+					$scope.editNode = {};
+					getNodes();
+					getNode(id);
+				});
+				
 			};
 
 			$scope.disconnect = function(id2){
@@ -270,8 +291,8 @@
 			var draw = function(){
 
 			//Width and height
-			var w = 800;
-			var h = 600;
+			var w = 500;
+			var h = 500;
 			d3.select("svg").remove();
 			var svg = d3.select("#display")
 						.append("svg")
@@ -335,7 +356,7 @@
 
 				});
 
-			    //Toggle stores whether the highlighting is on
+	//Toggle stores whether the highlighting is on
     var toggle = 0;
 
     //Create an array logging what is connected to what

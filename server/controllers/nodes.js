@@ -80,5 +80,19 @@ module.exports = (function(){
 
 			})
 		},
+		edit:function(req,res){
+			Node.findOne({_id:req.body.id},function(err,node){
+				node.name = req.body.name;
+				node.save(function(err,output){
+					if(err){
+						console.log(err);
+					}else{
+						console.log('node edit successfully');
+						res.json(output);
+					}
+				})
+
+			})
+		},
 	}
 })()

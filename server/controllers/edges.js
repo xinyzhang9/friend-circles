@@ -37,17 +37,21 @@ module.exports = (function(){
 			})
 		},
 		remove:function(req,res){
-			// Edge.remove({source:req.body.id1},function(err,status){
-			// 	if(err){
-			// 		console.log(err);
-			// 	}else{
-			// 		console.log('remove edges successfully');
-			// 		res.json({"status":'successful'});
-			// 	}
-			// })
 			Edge.find().or([
 		          { $and: [{source: req.body.id1}, {target: req.body.id2}] },
 		          { $and: [{source: req.body.id2}, {target: req.body.id1}] }
+		      ]).remove(function(err,output){
+		      	if(err){
+		      		console.err(err);
+		      	}else{
+		      		res.json(output);
+		      	};
+		      });
+		},
+		removeEdgeById:function(req,res){
+			Edge.find().or([
+		          { source: req.body.id},
+		          { target: req.body.id}
 		      ]).remove(function(err,output){
 		      	if(err){
 		      		console.err(err);

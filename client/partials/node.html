@@ -9,36 +9,73 @@
 		border-radius: 10%;
 	}
 	#header{
-		margin: 10px;
+		margin: 2px;
 	}
 
 </style>
 <div ng-controller='friendController'>
 	<div class = "row" id = "header">
-		<h4>
-		Hello 
-		<span style = "color:orange">{{node.name}}</span>, 
-		you can connect or disconnect friends here and view your <span style = "color:green">friend circles</span>.
-		</h4>
+		<form class="form-inline">
+			<div class = "form-group">
+				<input type = "text" class="form-control" ng-model = "newNode.name" placeholder = "new name">
+				<button type="submit" class = 'btn btn-primary' ng-click = 'editNode(node._id)'>Edit Name</button>
+			</div>
+		</form>
 		
 	</div>
-	<div class="row">
-	  <div class="col-md-9 col-md-push-3" id = "display">
-
-	  </div>
-	  <div class="col-md-3 col-md-pull-9">
+	<div class="row col-md-12">
+	  <div class="col-md-3" id = "list">
+	  	<table class = 'table table-striped'>
+	  		<tr>
+	  			<th>Hello</th>
+				<th>Avatar</th>
+				<th>Connections</th>
+				<th></th>
+	  		</tr>
+	  		<tr>
+	  			<td>{{node.name}}</td>
+	  			<td><img src="img/zp_{{(node.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
+	  			<td>{{node.friends.length}}</td>
+	  		</tr>
+	  	</table>
 	  	<table class = 'table table-striped'>
 			<tr>
-				<th>User</th>
-				<th>Avatar<th>
+				<th>Others({{nodes.length}})</th>
+				<th>Avatar</th>
 				<th>Actions</th>
 				<th></th>
 			</tr>
-			<tr ng-show = "node._id !== v._id" ng-repeat = "v in nodes | filter:filter_name | orderBy:'-created_at'">
+			<tr ng-show = "node._id !== v._id" ng-repeat = "v in nodes">
 				<td>{{v.name}}</td>
 				<td><img src="img/zp_{{(v.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
-				<td><button ng-click = 'connect(v._id)' class = 'btn btn-success' ng-disabled = "!isFriend(v._id)"><span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span></button></td>
-				<td><button ng-click = 'disconnect(v._id)' class = 'btn btn-danger' ng-disabled = "isFriend(v._id)"><span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span></button></td>
+				<td>
+					<button ng-click = 'connect(v._id)' class = 'btn btn-success' ng-disabled = "!isFriend(v._id)"><span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span></button>
+					<button ng-click = 'disconnect(v._id)' class = 'btn btn-danger' ng-disabled = "isFriend(v._id)"><span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span></button>
+				</td>
+				<td>
+					
+				</td>
+			</tr>
+		</table>
+	  </div>
+	  <div class="col-md-6" id = "display">
+
+	  </div>
+	  <div class="col-md-3" id = "rank">
+	  	<table class = 'table table-striped'>
+			<tr>
+				<th>Top User</th>
+				<th>Avatar</th>
+				<th>Connections</th>
+				<th></th>
+			</tr>
+			<tr ng-repeat = "v in nodes | orderBy:'-friends.length'">
+				<td>{{v.name}}</td>
+				<td><img src="img/zp_{{(v.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
+				<td>
+					{{v.friends.length}}
+				</td>
+				<td></td>
 			</tr>
 		</table>
 	  </div>
