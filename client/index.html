@@ -186,6 +186,8 @@
 		myApp.controller('friendController',function($scope,$window,$routeParams,nodeFactory,edgeFactory){
 			var id = $routeParams.id;
 
+			// $scope.animation = './partials/test.html';
+
 			var getNode = function(id){
 				nodeFactory.getNodeById(id,function(data){
 					console.log('getNode',data);

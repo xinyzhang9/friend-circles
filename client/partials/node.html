@@ -11,6 +11,12 @@
 	#header{
 		margin: 2px;
 	}
+	#footer{
+		position: absolute;
+		bottom: -50%;
+		right: 50%;
+		z-index: 100;
+	}
 
 </style>
 <div ng-controller='friendController'>
@@ -58,8 +64,12 @@
 			</tr>
 		</table>
 	  </div>
-	  <div class="col-md-6" id = "display">
-
+<!-- 	  <p ng-click = "animation='partials/test.html'">ss</p>
+ -->	  <div class="col-md-6">
+	  		<div id = "display"></div>
+<!-- 			<div id = "footer" ng-include = "animation">
+				
+			</div> -->
 	  </div>
 	  <div class="col-md-3" id = "rank">
 	  	<table class = 'table table-striped'>
