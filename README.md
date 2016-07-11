@@ -50,5 +50,5 @@ See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 >full stack, big data, visulization, front-end
 >
 ## Screenshot
-![alt tag](https://raw.githubusercontent.com/xinyzhang9/friend-circles/master/screenshot.png)
+![alt tag](https://raw.githubusercontent.com/xinyzhang9/friend-circles/master/screenshot1.png)
 
