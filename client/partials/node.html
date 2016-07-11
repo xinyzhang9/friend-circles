@@ -24,7 +24,7 @@
 		<form class="form-inline">
 			<div class = "form-group">
 				<input type = "text" class="form-control" ng-model = "newNode.name" placeholder = "new name">
-				<button type="submit" class = 'btn btn-primary' ng-click = 'editNode(node._id)'>Edit Name</button>
+				<button type="submit" class = 'btn btn-primary' ng-click = 'editNode(node._id)' ng-disabled="reserve(node.name)">Edit Name</button>
 			</div>
 		</form>
 		

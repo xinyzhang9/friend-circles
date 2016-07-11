@@ -1,0 +1,22 @@
+<style type="text/css">
+	body{
+		text-align: center;
+	}
+	#welcome{
+		
+	}
+</style>
+<div id = "welcome" ng-controller='welcomeController'>
+		<h3>Welcome to friend circles!</h3>
+		<div class = "form-inline">
+			<input class = "form-control" type="text" ng-model = 'newNode.name' placeholder = 'enter your name' ng-required="required">
+			<button type="submit" class = 'btn btn-default' ng-click = 'addNode()'>Finish</button>
+		</div>
+		<div>
+			<img src="img/nodes.jpg">
+		</div>
+		<hr>
+		<div class = "footer">
+			&copy;xinyzhang9@gmail.com | <a href="https://github.com/xinyzhang9/friend-circles" target = '_blank'>GitHub</a>
+		</div>
+</div>

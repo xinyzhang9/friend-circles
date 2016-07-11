@@ -32,11 +32,14 @@
 
 		myApp.config(function($routeProvider){
 			$routeProvider
-			.when('/',{
+			.when('/admin',{
 				templateUrl : './partials/index.html'
 			})
 			.when('/node/:id',{
 				templateUrl : './partials/node.html'
+			})
+			.when('/',{
+				templateUrl :'./partials/welcome.html'
 			})
 			.otherwise({
 				redirectTo: '/'
@@ -138,6 +141,12 @@
 
 		//main controller
 		myApp.controller('mainController',function($scope,nodeFactory,edgeFactory){
+
+			$scope.reserve = function(name){
+				var names = ['络络','张语格','赵粤','戴萌','赵嘉敏','林思意'];
+				return (names.indexOf(name) >= 0);
+			};
+
 			var getNodes = function(){
 				nodeFactory.index(function(data){
 					console.log(data);
@@ -182,9 +191,28 @@
 
 		});
 
+		//welcome controller
+		myApp.controller('welcomeController',function($scope,$location,nodeFactory,edgeFactory){
+
+			$scope.addNode = function(){
+				console.log('mainController.addNode');
+				nodeFactory.create($scope.newNode,function(node){
+					$scope.newNode = {};
+					$scope.node = node;
+					$location.path('/node/'+node._id);
+				})
+			};
+
+		});
+
 		//friends controller
 		myApp.controller('friendController',function($scope,$window,$routeParams,nodeFactory,edgeFactory){
 			var id = $routeParams.id;
+
+			$scope.reserve = function(name){
+				var names = ['络络','张语格','赵粤','戴萌','赵嘉敏','林思意'];
+				return (names.indexOf(name) >= 0);
+			};
 
 			// $scope.animation = './partials/test.html';
 
