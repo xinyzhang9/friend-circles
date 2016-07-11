@@ -70,17 +70,31 @@
 	  </div>
 	  <div class="col-md-6">
 	  		<div id = "display"></div>
+	  		<div style = "text-align:center;">
+	  			<p>
+	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> drag the nodes to reform the graph.
+	  			</p>
+	  			<p>
+	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> double-click the node to see the direct connections of the user.
+	  			</p>
+	  			
+	  		</div>
 
 	  </div>
 	  <div class="col-md-3" id = "rank">
 	  	<table class = 'table table-striped'>
 			<tr>
-				<th>Top User</th>
+				<th>Rank</th>
+				<th>User</th>
 				<th>Avatar</th>
-				<th>Connections</th>
+				<th>Friends</th>
 				<th></th>
 			</tr>
 			<tr ng-repeat = "v in nodes | orderBy:'-friends.length'">
+				<td ng-show="$index == 0" style = "color:gold;"><span class = "glyphicon glyphicon-king"></span></td>
+				<td ng-show="$index == 1" style = "color:silver;"><span class = "glyphicon glyphicon-queen"></span></td>
+				<td ng-show="$index == 2" style = "color:orange;"><span class = "glyphicon glyphicon-bishop"></span></td>
+				<td ng-show="$index > 2" style = "color:green">{{$index + 1}}</td>
 				<td>{{v.name}}</td>
 				<td ng-show = "v.gender=='f'"><img src="img/{{v.gender}}{{(v.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
 	  			<td ng-show = "v.gender=='m'"><img src="img/{{v.gender}}{{(v.created_at).split(':')[2].slice(0,2) % 6}}.jpg"></td>
