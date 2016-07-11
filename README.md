@@ -1,7 +1,7 @@
 # friend-circles
 
 ## Description
-We are building a graph-like visulization of the real-time friend-circles of our users. 
+We are building a graph-like visulization of the real-time friend circles. This app is implemented in MEAN stack and deployed with nginx.
 
 ## Live
 http://friends.xinyangzhang.com
@@ -42,7 +42,7 @@ See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 - team: Mongoose
 - Contributor: Xinyang(xinyzhang9@gmail.com)
 - description: vivid visulization of the real-time friend-circles of our users. 
-- stack: Angular, Express, NodeJS, d3.js, MongoDB
+- stack: Angular, Express, NodeJS, d3.js, MongoDB, nginx
 
 > **Note:** The data we use may be fake. For now we are not recommending user input real data.
 >
