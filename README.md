@@ -14,6 +14,7 @@ We are building a graph-like visulization of the real-time friend-circles of our
 - [x] See specific user's friend-circles by double-clicking his node.
 - [x] Represent different users with color codes
 - [x] Rank users with connections
+- [x] Reserve some superstars which user cannot delete or edit.
 
 ### Time Schedule
 
