@@ -8,7 +8,7 @@ module.exports = function(app){
 	app.get('/nodes/:id',function(req,res){
 		nodes.getNodeById(req,res);
 	});
-	app.post('/addNode/:name',function(req,res){
+	app.post('/addNode',function(req,res){
 		nodes.add(req,res);
 	});
 	app.post('/removeNode/:id',function(req,res){

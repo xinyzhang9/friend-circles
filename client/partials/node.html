@@ -1,6 +1,7 @@
 <style type="text/css">
 	#display{
-		border: 1px solid red;
+		border: 4px solid brown;
+		border-style: bridge;
 	}
 	img{
 		width: 60px;
@@ -25,6 +26,7 @@
 			<div class = "form-group">
 				<input type = "text" class="form-control" ng-model = "newNode.name" placeholder = "new name">
 				<button type="submit" class = 'btn btn-primary' ng-click = 'editNode(node._id)' ng-disabled="reserve(node.name)">Edit Name</button>
+				<a href="#/"><button class = 'btn btn-warning'>Start Over</button></a>
 			</div>
 		</form>
 		
@@ -40,7 +42,8 @@
 	  		</tr>
 	  		<tr>
 	  			<td>{{node.name}}</td>
-	  			<td><img src="img/zp_{{(node.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
+	  			<td ng-show = "node.gender=='f'"><img src="img/{{node.gender}}{{(node.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
+	  			<td ng-show = "node.gender=='m'"><img src="img/{{node.gender}}{{(node.created_at).split(':')[2].slice(0,2) % 6}}.jpg"></td>
 	  			<td>{{node.friends.length}}</td>
 	  		</tr>
 	  	</table>
@@ -53,7 +56,8 @@
 			</tr>
 			<tr ng-show = "node._id !== v._id" ng-repeat = "v in nodes">
 				<td>{{v.name}}</td>
-				<td><img src="img/zp_{{(v.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
+				<td ng-show = "v.gender=='f'"><img src="img/{{v.gender}}{{(v.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
+	  			<td ng-show = "v.gender=='m'"><img src="img/{{v.gender}}{{(v.created_at).split(':')[2].slice(0,2) % 6}}.jpg"></td>
 				<td>
 					<button ng-click = 'connect(v._id)' class = 'btn btn-success' ng-disabled = "!isFriend(v._id)"><span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span></button>
 					<button ng-click = 'disconnect(v._id)' class = 'btn btn-danger' ng-disabled = "isFriend(v._id)"><span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span></button>
@@ -64,12 +68,9 @@
 			</tr>
 		</table>
 	  </div>
-<!-- 	  <p ng-click = "animation='partials/test.html'">ss</p>
- -->	  <div class="col-md-6">
+	  <div class="col-md-6">
 	  		<div id = "display"></div>
-<!-- 			<div id = "footer" ng-include = "animation">
-				
-			</div> -->
+
 	  </div>
 	  <div class="col-md-3" id = "rank">
 	  	<table class = 'table table-striped'>
@@ -81,7 +82,8 @@
 			</tr>
 			<tr ng-repeat = "v in nodes | orderBy:'-friends.length'">
 				<td>{{v.name}}</td>
-				<td><img src="img/zp_{{(v.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
+				<td ng-show = "v.gender=='f'"><img src="img/{{v.gender}}{{(v.created_at).split(':')[2].slice(0,2) % 40}}.jpg"></td>
+	  			<td ng-show = "v.gender=='m'"><img src="img/{{v.gender}}{{(v.created_at).split(':')[2].slice(0,2) % 6}}.jpg"></td>
 				<td>
 					{{v.friends.length}}
 				</td>

@@ -10,6 +10,8 @@
 		<h3>Welcome to friend circles!</h3>
 		<div class = "form-inline">
 			<input class = "form-control" type="text" ng-model = 'newNode.name' placeholder = 'enter your name' ng-required="required">
+			  <input class = "form-control" type="radio" ng-model="newNode.gender" value="m" > Male 
+			  <input class = "form-control" type="radio" ng-model="newNode.gender" value="f" > Female 
 			<button type="submit" class = 'btn btn-default' ng-click = 'addNode()'>Finish</button>
 		</div>
 		<div>
@@ -17,6 +19,6 @@
 		</div>
 		<hr>
 		<div class = "footer">
-			&copy;xinyzhang9@gmail.com | <a href="https://github.com/xinyzhang9/friend-circles" target = '_blank'>GitHub</a>
+			<span style = "color:red" >Beta version</span> | &copy;xinyzhang9@gmail.com | <a href="https://github.com/xinyzhang9/friend-circles" target = '_blank'>GitHub</a>
 		</div>
 </div>

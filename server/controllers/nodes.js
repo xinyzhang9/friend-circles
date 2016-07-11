@@ -21,7 +21,7 @@ module.exports = (function(){
 			})
 		},
 		add:function(req,res){
-			var node = new Node({name:req.params.name,created_at:Date()});
+			var node = new Node({name:req.body.name,gender:req.body.gender,created_at:Date()});
 			node.save(function(err,output){
 				if(err){
 					console.log(err);

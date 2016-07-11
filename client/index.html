@@ -59,7 +59,8 @@
 			};
 			factory.create = function(info,callback){
 				console.log('nodeFactory.create');
-				$http.post('/addNode/'+info.name).success(function(output){
+				var info = {name:info.name,gender:info.gender};
+				$http.post('/addNode',info).success(function(output){
 					callback(output);
 				})
 			};
