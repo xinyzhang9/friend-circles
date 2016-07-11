@@ -17,6 +17,7 @@ http://friends.xinyangzhang.com
 - [x] Rank users with connections
 - [x] Reserve some superstars which user cannot delete or edit.
 - [x] Add a welcome page to new users and hide the admin page.
+- [x] Add gender option in welcome page
 
 ### Time Schedule
 
