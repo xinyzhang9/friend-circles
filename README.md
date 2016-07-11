@@ -15,6 +15,7 @@ We are building a graph-like visulization of the real-time friend-circles of our
 - [x] Represent different users with color codes
 - [x] Rank users with connections
 - [x] Reserve some superstars which user cannot delete or edit.
+- [x] Add a welcome page to new users and hide the admin page.
 
 ### Time Schedule
 
