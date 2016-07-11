@@ -3,7 +3,8 @@
 ## Description
 We are building a graph-like visulization of the real-time friend-circles of our users. 
 
-## Plan
+## Live
+http://friends.xinyangzhang.com
 
 ### Todo List
 - [x] Design database to store relative user information.
