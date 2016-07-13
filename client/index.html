@@ -15,8 +15,25 @@
 
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type='text/javascript' src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"> </script>
-	<style>
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-77776468-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<script type='text/javascript' src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"> </script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"/></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+
+
+<style>
 	body{
 		margin: 10px;
 	}
@@ -24,9 +41,8 @@
 		margin-bottom: 5px;
 		margin-top: 5px;
 	}
-	</style>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"/></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+</style>
+
 	<script>
 		var myApp = angular.module('myApp',['ngRoute']);
 
@@ -239,6 +255,17 @@
 						}
 					}
 					console.log("scope.obj",$scope.obj);
+					//search
+					$scope.optArray = [];
+						for (var i = 0; i < $scope.nodes.length - 1; i++) {
+						    $scope.optArray.push($scope.nodes[i].name);
+						}
+						$scope.optArray = $scope.optArray.sort();
+						$(function () {
+						    $("#search").autocomplete({
+						        source: $scope.optArray
+						    });
+						});
 					getEdges();
 				});
 			}
@@ -387,52 +414,75 @@
 
 				});
 
-	//Toggle stores whether the highlighting is on
-    var toggle = 0;
+		//Toggle stores whether the highlighting is on
+	    var toggle = 0;
 
-    //Create an array logging what is connected to what
-    var linkedByIndex = {};
-    for (i = 0; i < dataset.nodes.length; i++) {
-        linkedByIndex[i + "," + i] = 1;
-    };
-    dataset.edges.forEach(function (d) {
-        linkedByIndex[d.source.index + "," + d.target.index] = 1;
-    });
+	    //Create an array logging what is connected to what
+	    var linkedByIndex = {};
+	    for (i = 0; i < dataset.nodes.length; i++) {
+	        linkedByIndex[i + "," + i] = 1;
+	    };
+	    dataset.edges.forEach(function (d) {
+	        linkedByIndex[d.source.index + "," + d.target.index] = 1;
+	    });
 
-    //This function looks up whether a pair are neighbours  
-    function neighboring(a, b) {
-        return linkedByIndex[a.index + "," + b.index];
-    }
+	    //This function looks up whether a pair are neighbours  
+	    function neighboring(a, b) {
+	        return linkedByIndex[a.index + "," + b.index];
+	    }
 
-    function connectedNodes() {
+	    function connectedNodes() {
 
-        if (toggle == 0) {
-            //Reduce the opacity of all but the neighbouring nodes
-            d = d3.select(this).node().__data__;
-            nodes.style("opacity", function (o) {
-                return neighboring(d, o) | neighboring(o, d) ? 1 : 0.1;
-            });
-            
-            edges.style("opacity", function (o) {
-                return d.index==o.source.index | d.index==o.target.index ? 1 : 0.1;
-            });
-            
-            //Reduce the op
-            
-            toggle = 1;
-        } else {
-            //Put them back to opacity=1
-            nodes.style("opacity", 1);
-            edges.style("opacity", 1);
-            toggle = 0;
-        }
-    }
+	        if (toggle == 0) {
+	            //Reduce the opacity of all but the neighbouring nodes
+	            d = d3.select(this).node().__data__;
+	            nodes.style("opacity", function (o) {
+	                return neighboring(d, o) | neighboring(o, d) ? 1 : 0.1;
+	            });
+	            
+	            edges.style("opacity", function (o) {
+	                return d.index==o.source.index | d.index==o.target.index ? 1 : 0.1;
+	            });
+	            
+	            //Reduce the op
+	            
+	            toggle = 1;
+	        } else {
+	            //Put them back to opacity=1
+	            nodes.style("opacity", 1);
+	            edges.style("opacity", 1);
+	            toggle = 0;
+	        }
+	    }
 		
-		}//draw
-	});
+	}//draw
+
+	//search node function
+	$scope.searchNode = function(){
+	    //find the node
+	    var val = document.getElementById('search').value;
+	    var selectedVal = (val)? val : $scope.node.name;
+	    console.log(selectedVal);
+	    var svg = d3.select("svg");
+	    var node = svg.selectAll("circle");
+	    if (selectedVal == "none") {
+	        node.style("stroke", "white").style("stroke-width", "1");
+	    } else {
+	        var selected = node.filter(function (d, i) {
+	            return d.name != selectedVal;
+	        });
+	        selected.style("opacity", "0");
+	        var link = svg.selectAll("line")
+	        link.style("opacity", "0");
+	        d3.selectAll("circle, line").transition()
+	            .duration(5000)
+	            .style("opacity", 1);
+	    }
+	}//search node
+});
 
 
-	</script>
+</script>
 </head>
 <body>
 	<div>

@@ -18,6 +18,12 @@
 		right: 50%;
 		z-index: 100;
 	}
+	#search{
+		margin-left: 5px;
+	}
+	.ui-helper-hidden-accessible{
+		display: none;
+	}
 
 </style>
 <div ng-controller='friendController'>
@@ -69,17 +75,28 @@
 		</table>
 	  </div>
 	  <div class="col-md-6">
-	  		<div id = "display"></div>
+	  		<div id = "display">
+	  			<form class="form-inline">
+		  			<div class="form-group">
+					   <input id="search" type="text" class = "form-control" placeholder = "search user name">
+					    <button class = "btn btn-info" ng-click="searchNode()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+					</div>
+				</form>
+	  		</div>
 	  		<div style = "text-align:center;">
 	  			<p>
-	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> drag the nodes to reform the graph.
+	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Drag the nodes to alter the shape of the graph.
 	  			</p>
 	  			<p>
-	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> double-click the node to see the direct connections of the user.
+	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Click search button without a name to find your own node
 	  			</p>
-	  			
+	  			<p>
+	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Enter the user name and click search button to find a node
+	  			</p>	  			
+	  			<p>
+	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Double-click the node to see the direct connections of the user.
+	  			</p>
 	  		</div>
-
 	  </div>
 	  <div class="col-md-3" id = "rank">
 	  	<table class = 'table table-striped'>
