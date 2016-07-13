@@ -6,7 +6,8 @@ We are building a graph-like visulization of the real-time friend circles. This 
 ## Live
 http://friends.xinyangzhang.com
 ## Demo
-[Demo on YouTube](https://youtu.be/tAQFk0LpZT4)
+[Demo on YouTube(Chinese Version)](https://youtu.be/tAQFk0LpZT4)  
+English Version comming soon...
 
 ### Todo List
 - [x] Design database to store relative user information.
@@ -20,6 +21,7 @@ http://friends.xinyangzhang.com
 - [x] Reserve some superstars which user cannot delete or edit.
 - [x] Add a welcome page to new users and hide the admin page.
 - [x] Add gender option in welcome page
+- [] Add search-node feature to quickly find a user in the graph
 
 ### Time Schedule
 
