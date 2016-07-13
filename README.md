@@ -6,7 +6,7 @@ We are building a graph-like visulization of the real-time friend circles. This 
 ## Live
 http://friends.xinyangzhang.com
 ## Demo
-[Demo Viedo](https://youtu.be/tAQFk0LpZT4)
+[Demo on YouTube](https://youtu.be/tAQFk0LpZT4)
 
 ### Todo List
 - [x] Design database to store relative user information.
