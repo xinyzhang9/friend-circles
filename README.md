@@ -16,20 +16,6 @@ English Version comming soon...
 - [x] Find me: User's own node can be quickly found by just clicking the search button.
 - [x] Ranking: The rank of real-time top users are shown on the right panel.
 - [x] Admin: A hidden admin page is used to manage all user data.
-### Todo List
-- [x] Design database to store relative user information.
-- [x] Admin page to manage all users.
-- [x] User can add/remove friends.
-- [x] Visulization of the friend-circles using "force" graph.
-- [x] Real-time visulization when user or others add/remove friends.
-- [x] See specific user's friend-circles by double-clicking his node.
-- [x] Represent different users with color codes.
-- [x] Rank users with connections.
-- [x] Reserve some superstars which user cannot delete or edit.
-- [x] Add a welcome page to new users and hide the admin page.
-- [x] Add gender option in welcome page.
-- [x] Add search-node feature to quickly find a user in the graph.
-- [x] Add "find me" feature to quickly find myself.
 
 ### Time Schedule
 
