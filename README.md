@@ -8,11 +8,11 @@ http://friends.xinyangzhang.com
 [Demo on YouTube(Chinese Version)](https://youtu.be/tAQFk0LpZT4)  
 English Version comming soon...
 ### Feature
-- [x] Force-graph: Data is rendered in a force-graph which can be dragged to reshape.
+- [x] Force-graph: Data is rendered in a force-graph which can be dragged to reshape and relocate.
 - [x] Real-time drawing: Drawing function is triggered by any change of user without page refresh.
 - [x] Highlight: Direct conncections of a user are highlighted once the node is double-clicked.
 - [x] Tooltip: The name of the user is shown when the node is hovered.
-- [x] Search: The node can be quickly found by searching the user name
+- [x] Search: The node can be quickly found by searching the user name.
 - [x] Find me: User's own node can be quickly found by just clicking the search button.
 - [x] Ranking: The rank of real-time top users are shown on the right panel.
 - [x] Admin: A hidden admin page is used to manage all user data.
@@ -42,7 +42,7 @@ See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 - description: vivid visulization of the real-time friend-circles of our users. 
 - stack: Angular, Express, NodeJS, d3.js, MongoDB, nginx
 
-> **Note:** The data we use may be fake. For now we are not recommending user input real data.
+> **Note:** The data we are using may be fake. For now we are not recommending user input real data.
 >
 >**category options:** 
 >full stack, big data, visulization, front-end
