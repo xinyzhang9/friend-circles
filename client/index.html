@@ -98,6 +98,11 @@
 					callback(output);
 				})
 			};
+			factory.getNodeByName = function(name,callback){
+				$http.get('/getNodeByName/'+name).success(function(output){
+					callback(output);
+				})
+			};
 			factory.disconnect = function(id1,id2,callback){
 				console.log('nodeFactory.disconnect');
 				var info = {id1 : id1, id2 : id2};
@@ -239,12 +244,21 @@
 					$scope.node = data;
 				});
 			}
+
+			function getNodeByName(name){
+				nodeFactory.getNodeByName(name,function(data){
+					// $scope.tmpnode = data;
+					console.log('getNodeByName',data)
+				});
+			}
+			
 			
 
 			var getNodes = function(){
 				nodeFactory.index(function(data){
 					console.log(data);
 					$scope.nodes = data;
+					getNodeByName('赵粤');
 
 					$scope.obj = {};
 					var cnt = 0;
@@ -275,13 +289,20 @@
 					
 					$scope.edges = data;
 
+
 					for(var key in $scope.edges){
 						$scope.edges[key].source = $scope.obj[$scope.edges[key].source];
 						$scope.edges[key].target = $scope.obj[$scope.edges[key].target];
 					}
 			        console.log("$scope.edges",$scope.edges);
+			        $scope.array = shortestPath(prepareGraph($scope.edges),0,3);
 			        setTimeout(draw(), 2000);
+
 				});
+			}
+
+			$scope.testBFS = function(){
+				$scope.drawArray($scope.array);
 			}
 
 			$scope.isFriend = function(id2){
@@ -344,7 +365,82 @@
 				})
 			};
 
+			//test bfs
+
+			function Graph() {
+			  var neighbors = this.neighbors = {}; // Key = vertex, value = array of neighbors.
+
+			  this.addEdge = function (u, v) {
+			    if (neighbors[u] === undefined) {  // Add the edge u -> v.
+			      neighbors[u] = [];
+			    }
+			    neighbors[u].push(v);
+			    if (neighbors[v] === undefined) {  // Also add the edge v -> u in order
+			      neighbors[v] = [];               // to implement an undirected graph.
+			    }                                  // For a directed graph, delete
+			    neighbors[v].push(u);              // these four lines.
+			  };
+
+			  return this;
+			}
+
+			function prepareGraph(edges){
+				var graph = new Graph();
+				for(var i = 0; i < edges.length; i++){
+					graph.addEdge(edges[i].source,edges[i].target);
+				}
+				  console.log('prepare graph',graph);
+				  return graph;
+			}
+
+			function shortestPath(graph, source, target) {
+			  if (source == target) {   // Delete these four lines if
+			    print(source);          // you want to look for a cycle
+			    return;                 // when the source is equal to
+			  }                         // the target.
+			  var queue = [ source ],
+			      visited = { source: true },
+			      predecessor = {},
+			      tail = 0;
+			  while (tail < queue.length) {
+			    var u = queue[tail++],  // Pop a vertex off the queue.
+			        neighbors = graph.neighbors[u];
+			    for (var i = 0; i < neighbors.length; ++i) {
+			      var v = neighbors[i];
+			      if (visited[v]) {
+			        continue;
+			      }
+			      visited[v] = true;
+			      if (v === target) {   // Check if the path is complete.
+			        var path = [ v ];   // If so, backtrack through the path.
+			        while (u !== source) {
+			          path.push(u);
+			          u = predecessor[u];
+			        }
+			        path.push(u);
+			        path.reverse();
+			        print(path.join(' &rarr; '));
+			        console.log("path",path);
+			    
+			        return path;
+			      }
+			      predecessor[v] = u;
+			      queue.push(v);
+			    }
+			  }
+			  print('there is no path from ' + source + ' to ' + target);
+			  return null;
+
+			}
+
+			function print(s) {  // A quick and dirty way to display output.
+			  s = s || '';
+			  document.getElementById('bfs').innerHTML += s + '<br>';
+			}
+
 			
+
+			//--end of test bfs
 
 			var draw = function(){
 
@@ -479,6 +575,34 @@
 	            .style("opacity", 1);
 	    }
 	}//search node
+
+	$scope.drawArray = function(arr){
+		var svg = d3.select("svg");
+	    var node = svg.selectAll("circle");
+	    console.log('node...',node);
+	    var selected;
+	    d3.selectAll("circle")
+	            .style("opacity", 0);
+
+	    selected = node.filter(function(d,i){
+	    		// console.log($scope.obj[d._id]);
+	    		return arr.indexOf($scope.obj[d._id])>=0;
+	    })
+	    //sort in order of original arr!
+	    selected[0].sort(function(a,b){
+	    	return d3.ascending(arr.indexOf($scope.obj[a.__data__._id]),arr.indexOf($scope.obj[b.__data__._id]))
+	    });
+	    console.log('selected',selected[0]);
+	    // console.log('llll',arr.indexOf($scope.obj[selected[0][2].__data__._id]));
+	    selected.transition()
+	    			.duration(2000)
+	    			.delay(function(d, i) { return i * 1000; })
+	    			.style("opacity","1");
+	    // d3.selectAll("circle").transition()
+	    //         .duration(5000)
+	    //         .style("opacity", 1);
+	}
+
 });
 
 

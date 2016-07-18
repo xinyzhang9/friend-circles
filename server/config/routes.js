@@ -33,6 +33,9 @@ module.exports = function(app){
 	app.get('/getNodeById/:id',function(req,res){
 		nodes.getNodeById(req,res);
 	});
+	app.get('/getNodeByName/:name',function(req,res){
+		nodes.getNodeByName(req,res);
+	});
 	app.post('/disconnect',function(req,res){
 		nodes.disconnect(req,res);
 	});

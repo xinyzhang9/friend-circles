@@ -80,6 +80,7 @@
 		  			<div class="form-group">
 					   <input id="search" type="text" class = "form-control" placeholder = "search user name">
 					    <button class = "btn btn-info" ng-click="searchNode()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+					    <button class = "btn btn-info" ng-click="testBFS()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
 					</div>
 				</form>
 	  		</div>
@@ -97,6 +98,7 @@
 	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Double-click the node to see the direct connections of the user.
 	  			</p>
 	  		</div>
+	  		<div id = "bfs"></div>
 	  </div>
 	  <div class="col-md-3" id = "rank">
 	  	<table class = 'table table-striped'>

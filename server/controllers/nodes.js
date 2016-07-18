@@ -20,6 +20,15 @@ module.exports = (function(){
 				}
 			})
 		},
+		getNodeByName:function(req,res){
+			Node.findOne({name:req.params.name},function(err,output){
+				if(err){
+					console.log(err);
+				}else{
+					res.json(output);
+				}
+			})
+		},
 		add:function(req,res){
 			var node = new Node({name:req.body.name,gender:req.body.gender,created_at:Date()});
 			node.save(function(err,output){
