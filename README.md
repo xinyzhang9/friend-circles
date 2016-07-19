@@ -16,6 +16,7 @@ English Version comming soon...
 - [x] Find me: User's own node can be quickly found by just clicking the search button.
 - [x] Ranking: The rank of real-time top users are shown on the right panel.
 - [x] Admin: A hidden admin page is used to manage all user data.
+- [x] Degree of Separation: The shortest path between user and target is calculated and present with animation.
 
 ### Time Schedule
 
