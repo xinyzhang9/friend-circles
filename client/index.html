@@ -165,7 +165,7 @@
 		myApp.controller('mainController',function($scope,nodeFactory,edgeFactory){
 
 			$scope.reserve = function(name){
-				var names = ['络络','张语格','赵粤','戴萌','赵嘉敏','林思意'];
+				var names = ['张语格','赵粤','赵嘉敏'];
 				return (names.indexOf(name) >= 0);
 			};
 
@@ -232,7 +232,7 @@
 			var id = $routeParams.id;
 
 			$scope.reserve = function(name){
-				var names = ['络络','张语格','赵粤','戴萌','赵嘉敏','林思意'];
+				var names = ['张语格','赵粤','赵嘉敏'];
 				return (names.indexOf(name) >= 0);
 			};
 
@@ -263,8 +263,6 @@
 				nodeFactory.index(function(data){
 					console.log(data);
 					$scope.nodes = data;
-					// getNodeByName('赵粤');
-
 					$scope.obj = {};
 					var cnt = 0;
 					for(var key in data){
@@ -443,7 +441,7 @@
 			        path.push(u);
 			        path.reverse();
 			        // print(path.join(' &rarr; '));
-			        print("The shortest path is found.")
+			        print("The Degree of Separation to the target is "+path.length+'.');
 			        // console.log("path",path);
 			    
 			        return path;
@@ -630,9 +628,7 @@
 	    	.style("opacity", function (o) {
 	                return arr.indexOf($scope.obj[o.source._id]) <0  || arr.indexOf($scope.obj[o.target._id]) <0 ? 0.1 : 1;
 	            });
-	    // d3.selectAll("circle, line").transition()
-	    //         .duration(8000)
-	    //         .style("opacity", 1);
+
 	}
 
 });
