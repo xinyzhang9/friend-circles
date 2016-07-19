@@ -39,11 +39,11 @@ See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 ### Project Information
 - category: full stack
 - team: Mongoose
-- Contributor: Xinyang(xinyzhang9@gmail.com)
-- description: vivid visulization of the real-time friend-circles of our users. 
+- contributor: Xinyang Zhang(阳哥)(xinyzhang9@gmail.com)
+- description: real-time visulization of the friend-circles.
 - stack: Angular, Express, NodeJS, d3.js, MongoDB, nginx
 
-> **Note:** The data we are using may be fake. For now we are not recommending user input real data.
+> **Note:** The data we are using may be fake. For now we are not recommending users to input real data. All images and names are only for the purpose of demonstration.
 >
 >**category options:** 
 >full stack, big data, visulization, front-end
