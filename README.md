@@ -50,5 +50,6 @@ See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 >
 ## Screenshots
 ![alt tag](https://raw.githubusercontent.com/xinyzhang9/friend-circles/master/screenshot5.png)
+![alt tag](https://raw.githubusercontent.com/xinyzhang9/friend-circles/master/screenshot3.png)
 ![alt tag](https://raw.githubusercontent.com/xinyzhang9/friend-circles/master/screenshot4.png)
 
