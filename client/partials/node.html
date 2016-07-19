@@ -123,7 +123,7 @@
 				<th>Friends</th>
 				<th></th>
 			</tr>
-			<tr ng-repeat = "v in nodes | orderBy:'-friends.length'">
+			<tr ng-repeat = "v in nodes | orderBy:'-friends.length' | limitTo:10">
 				<td ng-show="$index == 0" style = "color:gold;"><span class = "glyphicon glyphicon-king"></span></td>
 				<td ng-show="$index == 1" style = "color:silver;"><span class = "glyphicon glyphicon-queen"></span></td>
 				<td ng-show="$index == 2" style = "color:orange;"><span class = "glyphicon glyphicon-bishop"></span></td>
