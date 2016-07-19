@@ -245,10 +245,15 @@
 				});
 			}
 
-			function getNodeByName(name){
+			//used to draw the path from owner to the target node
+			$scope.getNodeByName = function(){
+				var name = document.getElementById('bfs_target').value;
 				nodeFactory.getNodeByName(name,function(data){
-					// $scope.tmpnode = data;
-					console.log('getNodeByName',data)
+					$scope.target_node = data;
+					document.getElementById('bfs').innerHTML ='';
+					console.log('target_node',$scope.target_node);
+					$scope.testBFS($scope.target_node);
+					
 				});
 			}
 			
@@ -258,7 +263,7 @@
 				nodeFactory.index(function(data){
 					console.log(data);
 					$scope.nodes = data;
-					getNodeByName('赵粤');
+					// getNodeByName('赵粤');
 
 					$scope.obj = {};
 					var cnt = 0;
@@ -289,20 +294,38 @@
 					
 					$scope.edges = data;
 
-
 					for(var key in $scope.edges){
 						$scope.edges[key].source = $scope.obj[$scope.edges[key].source];
 						$scope.edges[key].target = $scope.obj[$scope.edges[key].target];
 					}
 			        console.log("$scope.edges",$scope.edges);
-			        $scope.array = shortestPath(prepareGraph($scope.edges),0,3);
+       		        
 			        setTimeout(draw(), 2000);
 
 				});
 			}
 
-			$scope.testBFS = function(){
-				$scope.drawArray($scope.array);
+			$scope.testBFS = function(target_node){
+				var self_index = $scope.obj[$scope.node._id];
+				var target_index = $scope.obj[target_node._id];
+				console.log('self index',self_index);
+				console.log('target index',target_index);
+				edgeFactory.index(function(data){
+					
+					$scope.edges = data;
+
+					for(var key in $scope.edges){
+						$scope.edges[key].source = $scope.obj[$scope.edges[key].source];
+						$scope.edges[key].target = $scope.obj[$scope.edges[key].target];
+					}
+       		        $scope.array = shortestPath(prepareGraph($scope.edges),self_index,target_index);
+       		        if($scope.array){
+       		        	$scope.drawArray($scope.array);
+       		        }
+       		        
+				});
+			        	
+				
 			}
 
 			$scope.isFriend = function(id2){
@@ -419,8 +442,9 @@
 			        }
 			        path.push(u);
 			        path.reverse();
-			        print(path.join(' &rarr; '));
-			        console.log("path",path);
+			        // print(path.join(' &rarr; '));
+			        print("The shortest path is found.")
+			        // console.log("path",path);
 			    
 			        return path;
 			      }
@@ -428,7 +452,7 @@
 			      queue.push(v);
 			    }
 			  }
-			  print('there is no path from ' + source + ' to ' + target);
+			  print('There is no path to the target');
 			  return null;
 
 			}
@@ -577,12 +601,14 @@
 	}//search node
 
 	$scope.drawArray = function(arr){
+
 		var svg = d3.select("svg");
 	    var node = svg.selectAll("circle");
+	    var link = svg.selectAll("line");
 	    console.log('node...',node);
 	    var selected;
-	    d3.selectAll("circle")
-	            .style("opacity", 0);
+	    d3.selectAll("circle,line")
+	            .style("opacity", 0.05);
 
 	    selected = node.filter(function(d,i){
 	    		// console.log($scope.obj[d._id]);
@@ -592,14 +618,20 @@
 	    selected[0].sort(function(a,b){
 	    	return d3.ascending(arr.indexOf($scope.obj[a.__data__._id]),arr.indexOf($scope.obj[b.__data__._id]))
 	    });
-	    console.log('selected',selected[0]);
+	    // console.log('selected',selected[0]);
 	    // console.log('llll',arr.indexOf($scope.obj[selected[0][2].__data__._id]));
 	    selected.transition()
-	    			.duration(2000)
+	    			.duration(500)
 	    			.delay(function(d, i) { return i * 1000; })
 	    			.style("opacity","1");
-	    // d3.selectAll("circle").transition()
-	    //         .duration(5000)
+
+	    link.transition()
+	    	.duration(500)
+	    	.style("opacity", function (o) {
+	                return arr.indexOf($scope.obj[o.source._id]) <0  || arr.indexOf($scope.obj[o.target._id]) <0 ? 0.1 : 1;
+	            });
+	    // d3.selectAll("circle, line").transition()
+	    //         .duration(8000)
 	    //         .style("opacity", 1);
 	}
 

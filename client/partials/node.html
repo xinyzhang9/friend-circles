@@ -18,8 +18,12 @@
 		right: 50%;
 		z-index: 100;
 	}
-	#search{
+	#search,#bfs_target{
 		margin-left: 5px;
+	}
+	#bfs{
+		margin-left: 5px;
+		color: red;
 	}
 	.ui-helper-hidden-accessible{
 		display: none;
@@ -32,7 +36,7 @@
 			<div class = "form-group">
 				<input type = "text" class="form-control" ng-model = "newNode.name" placeholder = "new name">
 				<button type="submit" class = 'btn btn-primary' ng-click = 'editNode(node._id)' ng-disabled="reserve(node.name)">Edit Name</button>
-				<a href="#/"><button class = 'btn btn-warning'>Start Over</button></a>
+				<a href="#/"><button class = 'btn btn-default'>Start Over</button></a>
 			</div>
 		</form>
 		
@@ -78,10 +82,16 @@
 	  		<div id = "display">
 	  			<form class="form-inline">
 		  			<div class="form-group">
-					   <input id="search" type="text" class = "form-control" placeholder = "search user name">
+					   <input id="search" type="text" class = "form-control" placeholder = "search user">
 					    <button class = "btn btn-info" ng-click="searchNode()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-					    <button class = "btn btn-info" ng-click="testBFS()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
 					</div>
+				</form>
+				<form class = "form-inline">
+					<div class="form-group">
+					   <input id="bfs_target" type="text" class = "form-control" placeholder = "target user">
+					    <button class = "btn btn-warning" ng-click="getNodeByName()"><span class="glyphicon glyphicon-transfer" aria-hidden="true"></span></button>
+					</div>
+					<div id = "bfs"></div>
 				</form>
 	  		</div>
 	  		<div style = "text-align:center;">
@@ -98,7 +108,7 @@
 	  				<span style = "color:steelblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Double-click the node to see the direct connections of the user.
 	  			</p>
 	  		</div>
-	  		<div id = "bfs"></div>
+	  		
 	  </div>
 	  <div class="col-md-3" id = "rank">
 	  	<table class = 'table table-striped'>
